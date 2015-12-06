@@ -59,8 +59,6 @@ public class LexicalWordParser {
             Double denominator = totalSpamWords + uniqueWords.size();
             spamProb.put(s, numerator / denominator);
 
-            System.out.println("SPAM: " + numerator / denominator);
-
             numerator = 1.0;
             if (hamWords.containsKey(s)) {
                 numerator += hamWords.get(s);
@@ -70,8 +68,6 @@ public class LexicalWordParser {
 
             denominator = totalHamWords + uniqueWords.size();
             hamProb.put(s, numerator / denominator);
-
-            System.out.println("HAM: " + numerator / denominator);
         }
 
         String testFileString = new Scanner(new File("C://email//temp.txt")).useDelimiter("\\A").next();
@@ -88,7 +84,6 @@ public class LexicalWordParser {
             }
         }
 
-        System.out.println(spamProbability);
         Double hamProbability = 0.0;
 
         for (String s : wordArrayTest) {
@@ -98,7 +93,12 @@ public class LexicalWordParser {
                 hamProbability = hamProbability;
             }
         }
-        System.out.println(hamProbability);
+        
+        if(hamProbability > spamProbability)
+        	System.out.println("Email is not spam");
+        
+        else
+        	System.out.println("Email is spam");
 
     }
 
