@@ -23,7 +23,7 @@ import edu.mit.jwi.item.POS;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
-class WSDParser2 {
+class LexicalLemmaParser {
 	
 	static HashMap<String, String> wordAndLemma = new HashMap<>();
 	static HashMap<String, Integer> spamWords = new HashMap<>();

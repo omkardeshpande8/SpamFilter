@@ -13,7 +13,7 @@ import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 
-public class WSDParser {
+public class Test {
 	
 	static HashMap<String, Integer> overlapMap = new HashMap<>();
 	static HashMap<String, List<String>> overlapWords = new HashMap<>();

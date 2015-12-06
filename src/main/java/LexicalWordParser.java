@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class WordLexical {
+public class LexicalWordParser {
 	
 	static HashMap<String, Integer> spamWords = new HashMap<>();
 	static HashMap<String, Integer> hamWords = new HashMap<>();
