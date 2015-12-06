@@ -6,7 +6,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
     <dependencies>
-        <dependency>
+        <!--        <dependency>
             <groupId>stanford-postagger</groupId>
             <artifactId>stanford-postagger</artifactId>
             <version>3.5.2</version>
@@ -15,6 +15,17 @@
             <groupId>stanford-parser</groupId>
             <artifactId>stanford-parser</artifactId>
             <version>3.5.2</version>
+        </dependency>-->
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>3.5.2</version>
+            <classifier>models</classifier>
         </dependency>
         <dependency>
             <groupId>edu.mit</groupId>
