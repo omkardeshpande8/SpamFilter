@@ -138,7 +138,6 @@ public class SyntacticPosParser {
                     spamProbability += Math.log(spamWords.get(s));
                 }
             }
-            System.out.println(spamProbability);
 
             Double hamProbability = 0.0;
             for (String s : wordArrayTest) {
@@ -146,7 +145,8 @@ public class SyntacticPosParser {
                     hamProbability += Math.log(hamWords.get(s));
                 }
             }
-            System.out.println(hamProbability);
+            Helper.displayClassification(spamProbability, hamProbability);
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SyntacticPosParser.class.getName()).log(Level.SEVERE, null, ex);
         }

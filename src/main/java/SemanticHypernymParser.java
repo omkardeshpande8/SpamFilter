@@ -1,3 +1,4 @@
+
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
@@ -111,13 +112,10 @@ public class SemanticHypernymParser {
                     } else {
                         hamWords.put(wordAndLemma.get(word), 1);
                     }
-
                     totalHamWords++;
                 }
             }
 
-            /*for(Map.Entry<String, String> entry : wordAndLemma.entrySet())
-             System.out.println("WORD: " + entry.getKey() + "\t" + "LEMMA: " + entry.getValue());*/
         } catch (IOException ex) {
             Logger.getLogger(SemanticHypernymParser.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -164,9 +162,6 @@ public class SemanticHypernymParser {
                     spamProbability += Math.log(spamWords.get(s));
                 }
             }
-
-            System.out.println(spamProbability);
-
             Double hamProbability = 0.0;
 
             for (String s : wordArrayTest) {
@@ -174,8 +169,7 @@ public class SemanticHypernymParser {
                     hamProbability += Math.log(hamWords.get(s));
                 }
             }
-
-            System.out.println(hamProbability);
+            Helper.displayClassification(spamProbability, hamProbability);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SemanticHypernymParser.class.getName()).log(Level.SEVERE, null, ex);
         }

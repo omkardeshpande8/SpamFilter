@@ -127,9 +127,8 @@ public class SyntacticSentencePOSTagParser {
             }
             spamProb2 *= -1;
             hamProb2 *= -1;
-
-            System.out.println(spamProb2);
-            System.out.println(hamProb2);
+            
+            Helper.displayClassification(spamProb2, hamProb2);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SyntacticSentencePOSTagParser.class.getName()).log(Level.SEVERE, null, ex);
         }

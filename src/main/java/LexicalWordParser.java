@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class LexicalWordParser {
     static double totalHamWords = 0;
     static double totalSpamWords = 0;
     static ArrayList<String> uniqueWords = new ArrayList<>();
-    
+
     public static void main(String[] args) throws FileNotFoundException {
 
         String fileString = new Scanner(new File("C://email//spam_training.txt")).useDelimiter("\\A").next();
@@ -82,11 +83,6 @@ public class LexicalWordParser {
                 hamProbability += Math.log(hamWords.get(s));
             }
         }
-
-        if (hamProbability > spamProbability) {
-            System.out.println("Email is not spam");
-        } else {
-            System.out.println("Email is spam");
-        }
+        Helper.displayClassification(spamProbability, hamProbability);
     }
 }

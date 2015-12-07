@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -133,11 +134,7 @@ class LexicalLemmaParser {
             }
         }
 
-        if (hamProbability > spamProbability) {
-            System.out.println("Email is not spam");
-        } else {
-            System.out.println("Email is spam");
-        }
+        Helper.displayClassification(spamProbability, hamProbability);
     }
 
     public static void main(String[] args) throws Exception {
