@@ -1,5 +1,8 @@
-
-public class Helper {
+/**
+ * 
+ *
+ */
+class Helper {
 
     static void displayClassification(double spam, double ham) {
         spam = ((spam - 100) / 100);

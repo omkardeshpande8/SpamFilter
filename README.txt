@@ -1,5 +1,9 @@
-Import this poroject into eclipse or netbeans as maven project.
+Import this project into eclipse or netbeans as maven project and then run indivisual java files.
 
 Each java file contains an individual feature.
 
-The email folder in parent directory contains all input files.
+Set path to the Wordnet in resources.properties file.
+
+spam_training.txt and ham_training.txt files contain training data.
+
+temp.txt contains email to be classified.

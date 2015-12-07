@@ -1,20 +1,27 @@
+
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * 
+ *
+ */
 public class SyntacticSentencePOSTagParser {
 
     static HashMap<String, String> wordAndLemma = new HashMap<>();
@@ -31,12 +38,12 @@ public class SyntacticSentencePOSTagParser {
     static HashMap<List<String>, Integer> hamSentenceCounts = new HashMap<>();
     static HashMap<List<String>, Integer> testSentenceCounts = new HashMap<>();
     static MaxentTagger tagger;
-    
+
     public static void constructHashMaps(String path, IDictionary dict) {
         try {
             dict.open();
-            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader(path)));
-            
+            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader(new File(SyntacticSentencePOSTagParser.class.getResource(path).toURI()))));
+
             for (List<HasWord> sentence : sentences) {
                 List<TaggedWord> tSentence = tagger.tagSentence(sentence);
                 List<String> tagList = new ArrayList<>();
@@ -57,34 +64,16 @@ public class SyntacticSentencePOSTagParser {
                     }
                 }
             }
-        } catch (IOException ex) {
+        } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(SyntacticSentencePOSTagParser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    public static void main(String[] args) {
-
-        URL url = null;
-        String path = "C://WordNet-3.0//dict";
-        try {
-            url = new URL("file", null, path);
-
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(SyntacticPosParser.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-        IDictionary dict = new Dictionary(url);
-        tagger  = new MaxentTagger("C://email//english-bidirectional-distsim.tagger");
-        constructHashMaps("C://email//spam_training.txt", dict);
-        constructHashMaps("C://email//ham_training.txt", dict);
-        performTesting();
-    }
-
     public static void performTesting() {
         try {
-            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader("C://email//temp.txt")));
-            
+            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader(new File(SyntacticSentencePOSTagParser.class.getResource("temp.txt").toURI()))));
+
             for (List<HasWord> sentence : sentences) {
                 List<TaggedWord> tSentence = tagger.tagSentence(sentence);
                 List<String> tagList = new ArrayList<>();
@@ -122,14 +111,34 @@ public class SyntacticSentencePOSTagParser {
                 if (hamSentenceCounts.get(test) != null) {
                     hamCount = hamSentenceCounts.get(test);
                 }
-                spamProb2 += Math.log((double)(spamCount + 1) / (spamLength + uniqueCount));
-                hamProb2 += Math.log((double)(hamCount + 1) / (hamLength + uniqueCount));
+                spamProb2 += Math.log((double) (spamCount + 1) / (spamLength + uniqueCount));
+                hamProb2 += Math.log((double) (hamCount + 1) / (hamLength + uniqueCount));
             }
             spamProb2 *= -1;
             hamProb2 *= -1;
-            
+
             Helper.displayClassification(spamProb2, hamProb2);
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException | URISyntaxException ex) {
+            Logger.getLogger(SyntacticSentencePOSTagParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(SemanticHypernymParser.class.getResource("resources.properties").toURI().getPath());
+            PropertyResourceBundle resourceBundle = new PropertyResourceBundle(fis);
+
+            String path = resourceBundle.getString("wordnet");
+            URL url = new URL("file", null, path);
+            IDictionary dict = new Dictionary(url);
+            tagger = new MaxentTagger(SyntacticSentencePOSTagParser.class.getResource("english-bidirectional-distsim.tagger").toURI().getPath());
+            constructHashMaps("spam_training.txt", dict);
+            constructHashMaps("ham_training.txt", dict);
+            performTesting();
+
+        } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(SyntacticSentencePOSTagParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

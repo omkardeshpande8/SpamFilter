@@ -11,18 +11,23 @@ import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * 
+ *
+ */
 public class SemanticSynonymParser {
 
     static HashMap<String, String> wordAndLemma = new HashMap<>();
@@ -33,13 +38,13 @@ public class SemanticSynonymParser {
     static ArrayList<String> uniqueWords = new ArrayList<>();
     static HashMap<String, Double> spamProb = new HashMap<>();
     static HashMap<String, Double> hamProb = new HashMap<>();
+    static MaxentTagger tagger;
 
     public static void constructHashMaps(String path, IDictionary dict) {
         try {
             dict.open();
             String fileString = "";
-            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader(path)));
-            MaxentTagger tagger = new MaxentTagger("C://email//english-bidirectional-distsim.tagger");
+            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader(new File(SemanticSynonymParser.class.getResource(path).toURI()))));
 
             for (List<HasWord> sentence : sentences) {
 
@@ -108,9 +113,7 @@ public class SemanticSynonymParser {
                 }
             }
 
-            /*for(Map.Entry<String, String> entry : wordAndLemma.entrySet())
-             System.out.println("WORD: " + entry.getKey() + "\t" + "LEMMA: " + entry.getValue());*/
-        } catch (IOException ex) {
+        } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(SemanticHypernymParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -127,8 +130,6 @@ public class SemanticSynonymParser {
             Double denominator = totalSpamWords + uniqueWords.size();
             spamProb.put(s, numerator / denominator);
 
-            System.out.println("SPAM: " + numerator / denominator);
-
             numerator = 1.0;
             if (hamWords.containsKey(s)) {
                 numerator += hamWords.get(s);
@@ -138,14 +139,12 @@ public class SemanticSynonymParser {
 
             denominator = totalHamWords + uniqueWords.size();
             hamProb.put(s, numerator / denominator);
-
-            System.out.println("HAM: " + numerator / denominator);
         }
     }
 
     public static void performTesting() {
         try {
-            String testFileString = new Scanner(new File("C://email//temp.txt")).useDelimiter("\\A").next();
+            String testFileString = new Scanner(new File(SemanticHypernymParser.class.getResource("temp.txt").toURI())).useDelimiter("\\A").next();
             testFileString.replace("(", "").replace(".", "").replace(":", "").replace(")", "").replace("\"", "");
 
             String[] wordArrayTest = testFileString.split(" ");
@@ -164,27 +163,33 @@ public class SemanticSynonymParser {
                 }
             }
 
-           Helper.displayClassification(spamProbability, hamProbability);
-        } catch (FileNotFoundException ex) {
+            Helper.displayClassification(spamProbability, hamProbability);
+        } catch (FileNotFoundException | URISyntaxException ex) {
             Logger.getLogger(SemanticHypernymParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public static void main(String[] args) {
 
-        URL url = null;
-        String path = "C://WordNet-3.0//dict";
+        FileInputStream fis;
         try {
-            url = new URL("file", null, path);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(SemanticHypernymParser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        IDictionary dict = new Dictionary(url);
+            fis = new FileInputStream(SemanticHypernymParser.class.getResource("resources.properties").toURI().getPath());
+            PropertyResourceBundle resourceBundle = new PropertyResourceBundle(fis);
 
-        constructHashMaps("C://email//spam_training.txt", dict);
-        constructHashMaps("C://email//ham_training.txt", dict);
-        findProbabilities();
-        performTesting();
+            String path = resourceBundle.getString("wordnet");
+            URL url = new URL("file", null, path);
+            IDictionary dict = new Dictionary(url);
+
+            tagger = new MaxentTagger(SemanticSynonymParser.class.getResource("english-bidirectional-distsim.tagger").toURI().getPath());
+
+            constructHashMaps("spam_training.txt", dict);
+            constructHashMaps("ham_training.txt", dict);
+            findProbabilities();
+            performTesting();
+        } catch (IOException | URISyntaxException ex) {
+            Logger.getLogger(SemanticSynonymParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }
