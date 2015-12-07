@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *	This class implements the lexical classifier using words
+ *This class implements the lexical classifier using words as feature
  *
  */
 public class LexicalWordParser {

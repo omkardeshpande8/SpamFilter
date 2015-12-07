@@ -19,7 +19,7 @@ import java.util.PropertyResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- * 	This class implements the syntactic classifier using Sentence POS
+ *This class implements the syntactic classifier using POS tagging of sentence as feature 
  *
  */
 public class SyntacticSentencePOSTagParser {
@@ -32,7 +32,7 @@ public class SyntacticSentencePOSTagParser {
     static ArrayList<String> uniqueWords = new ArrayList<>();
     static HashMap<String, Double> spamProb = new HashMap<>();
     static HashMap<String, Double> hamProb = new HashMap<>();
-    static HashMap<String, SyntacticPosParser.Data> posCounts = new HashMap<>();
+    static HashMap<String, SyntacticPOSParser.Data> posCounts = new HashMap<>();
     static HashMap<String, Integer> tagMap = new HashMap<>();
     static HashMap<List<String>, Integer> spamSentenceCounts = new HashMap<>();
     static HashMap<List<String>, Integer> hamSentenceCounts = new HashMap<>();

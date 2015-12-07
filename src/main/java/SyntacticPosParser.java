@@ -21,10 +21,10 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- * 	This class implements the syntactic classifier using POS
+ *This class implements the syntactic classifier using POS as feature
  *
  */
-public class SyntacticPosParser {
+public class SyntacticPOSParser {
 
     public static class Data {
 
@@ -55,7 +55,7 @@ public class SyntacticPosParser {
         try {
             dict.open();
             String fileString = "";
-            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader(new File(SyntacticPosParser.class.getResource(path).toURI()))));
+            List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new FileReader(new File(SyntacticPOSParser.class.getResource(path).toURI()))));
 
             for (List<HasWord> sentence : sentences) {
                 List<TaggedWord> tSentence = tagger.tagSentence(sentence);
@@ -101,7 +101,7 @@ public class SyntacticPosParser {
                 }
             }
         } catch (IOException | URISyntaxException ex) {
-            Logger.getLogger(SyntacticPosParser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SyntacticPOSParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -151,7 +151,7 @@ public class SyntacticPosParser {
             Helper.displayClassification(spamProbability, hamProbability);
 
         } catch (FileNotFoundException | URISyntaxException ex) {
-            Logger.getLogger(SyntacticPosParser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SyntacticPOSParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -166,14 +166,14 @@ public class SyntacticPosParser {
             URL url = new URL("file", null, path);
             IDictionary dict = new Dictionary(url);
 
-            tagger = new MaxentTagger(SyntacticPosParser.class.getResource("english-bidirectional-distsim.tagger").toURI().getPath());
+            tagger = new MaxentTagger(SyntacticPOSParser.class.getResource("english-bidirectional-distsim.tagger").toURI().getPath());
 
             constructHashMaps("spam_training.txt", dict);
             constructHashMaps("ham_training.txt", dict);
             findProbabilities();
             performTesting();
         } catch (IOException | URISyntaxException ex) {
-            Logger.getLogger(SyntacticPosParser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SyntacticPOSParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
