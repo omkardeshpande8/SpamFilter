@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,7 +17,7 @@ public class Baseline {
             boolean isSpam = false;
             HashMap<String, Integer> spamWordsList = new HashMap<>();
 
-            testFileString = new Scanner(new File("C://email//temp.txt")).useDelimiter("\\A").next();
+            testFileString = new Scanner(new File(Baseline.class.getResource("temp.txt").toURI())).useDelimiter("\\A").next();
             testFileString.replace("(", "").replace(".", "").replace(":", "").replace(")", "").replace("\"", "");
 
             spamWordsList.put("discount", 0);
@@ -44,7 +45,7 @@ public class Baseline {
             } else {
                 System.out.println("This is not a spam email");
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException | URISyntaxException ex) {
             Logger.getLogger(Baseline.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }

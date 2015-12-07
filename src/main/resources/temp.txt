@@ -1,0 +1,19 @@
+hellow hello world
+
+Exam on the 12 of Dec from 11 to 1. ECSS 2.203
+
+Formula and their meaning. (e.g) Hypernym what it is, Anaphora, Cataphora etc. 
+Given LESK, what is the WSD for it.
+
+Eng Grammar (eg what is apposition. Examples are better)
+RE and Automata (similar to mid-term. Automata <=> RE, SSN, Telephone)
+N-gram (given an equation, what does it mean. Give training and test set and what is the n-gram vals)
+POS (POS will be given. Given pos, what is its probability. (imp)Noisy channel theory and formula. Prob of word being wrongly spelt etc.)
+HMM (Viterbi, fwd chaining)
+Max Ent Models (theory on linear regression, house eval on adjectives and how to compute it. Know formula. Linear to log conversion, formulae). Max ent to do POS tagging.
+Formal Grammar and Syn Parsing (given grammar, create parse tree. Chart parser). Compute probability of parse tree, prepositional attachment issues. Given 2 parse trees which is the right one and how to get to it. Formulae for statistical parsing
+Lexical Semantics: (dont do the paper on how to extract semantic relations). Differnt definitions, thematic roles and semantic relations like h/w
+Computational Lex Semantics: WSD, Lesk, given a particular features create decision tree to get a certain feature. Word similarity (no need to learn formulae)
+Discourse: Co-reference resolution, diff structures of discourse, (imp** LaPin algorithm for co-reference resolution). Coherence relations (learn the definitions of the relations. What is relations between 2 sentences), segmentation, 
+Info extraction: (template filling), named entities. Derive the relation in the text. or how to combine parts to get a particular relation. Event time overlap. 
+Knowledge representation (*LFT) with conjunction, w/o semantic relations etc. Given diff possible relations what is the LFT with the relation. LFT with Negation. Greisim's maxims. Is it coherent and which maxim says so. RDE and does this entail from this.
