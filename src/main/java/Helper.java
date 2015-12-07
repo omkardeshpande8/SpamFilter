@@ -1,5 +1,5 @@
 /**
- * 
+ * 	This class prints the formatted output
  *
  */
 class Helper {

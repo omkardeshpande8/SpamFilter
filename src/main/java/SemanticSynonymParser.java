@@ -25,7 +25,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- * 
+ * 	This class implements the semantic classifier using synonyms
  *
  */
 public class SemanticSynonymParser {

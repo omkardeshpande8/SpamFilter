@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
- * 
+ * 	This class implements the baseline classifier 
  *
  */
 public class Baseline {

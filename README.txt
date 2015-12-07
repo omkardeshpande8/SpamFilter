@@ -1,4 +1,4 @@
-Import this project into eclipse or netbeans as maven project and then run indivisual java files.
+Import this project into eclipse or netbeans as maven project and then run individual java files.
 
 Each java file contains an individual feature.
 

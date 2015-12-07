@@ -21,7 +21,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- * 
+ * 	This class implements the syntactic classifier using POS
  *
  */
 public class SyntacticPosParser {

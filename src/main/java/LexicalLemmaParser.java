@@ -24,7 +24,7 @@ import java.util.PropertyResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- * 
+ * 	This class implements the lexical classifier using lemma
  *
  */
 class LexicalLemmaParser {
