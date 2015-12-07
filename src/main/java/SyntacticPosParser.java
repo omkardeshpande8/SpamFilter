@@ -52,7 +52,6 @@ public class SyntacticPosParser {
             MaxentTagger tagger = new MaxentTagger("C://email//english-bidirectional-distsim.tagger");
 
             for (List<HasWord> sentence : sentences) {
-
                 List<TaggedWord> tSentence = tagger.tagSentence(sentence);
                 fileString = fileString.concat(Sentence.listToString(tSentence, false));
             }

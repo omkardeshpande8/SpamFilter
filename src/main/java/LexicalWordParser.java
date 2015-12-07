@@ -11,15 +11,13 @@ public class LexicalWordParser {
     static double totalHamWords = 0;
     static double totalSpamWords = 0;
     static ArrayList<String> uniqueWords = new ArrayList<>();
-    //HashMap<String, Double> spamWords = new HashMap<>();
-
+    
     public static void main(String[] args) throws FileNotFoundException {
 
         String fileString = new Scanner(new File("C://email//spam_training.txt")).useDelimiter("\\A").next();
         fileString.replace("(", "").replace(".", "").replace(":", "").replace(")", "").replace("\"", "");
 
         String[] wordArray = fileString.split(" ");
-
         for (String s : wordArray) {
             if (spamWords.containsKey(s)) {
                 spamWords.put(s, spamWords.get(s) + 1);
@@ -34,7 +32,6 @@ public class LexicalWordParser {
         fileString.replace("(", "").replace(".", "").replace(":", "").replace(")", "").replace("\"", "");
 
         wordArray = fileString.split(" ");
-
         for (String s : wordArray) {
             if (spamWords.containsKey(s)) {
                 spamWords.put(s, spamWords.get(s) + 1);
@@ -58,48 +55,38 @@ public class LexicalWordParser {
 
             Double denominator = totalSpamWords + uniqueWords.size();
             spamProb.put(s, numerator / denominator);
-
             numerator = 1.0;
             if (hamWords.containsKey(s)) {
                 numerator += hamWords.get(s);
             } else {
                 numerator = 0 + numerator;
             }
-
             denominator = totalHamWords + uniqueWords.size();
             hamProb.put(s, numerator / denominator);
         }
 
         String testFileString = new Scanner(new File("C://email//temp.txt")).useDelimiter("\\A").next();
         testFileString.replace("(", "").replace(".", "").replace(":", "").replace(")", "").replace("\"", "");
-
         String[] wordArrayTest = testFileString.split(" ");
         Double spamProbability = 0.0;
 
         for (String s : wordArrayTest) {
             if (spamWords.containsKey(s)) {
                 spamProbability += Math.log(spamWords.get(s));
-            } else {
-                spamProbability = spamProbability;
             }
         }
 
         Double hamProbability = 0.0;
-
         for (String s : wordArrayTest) {
             if (hamWords.containsKey(s)) {
                 hamProbability += Math.log(hamWords.get(s));
-            } else {
-                hamProbability = hamProbability;
             }
         }
-        
-        if(hamProbability > spamProbability)
-        	System.out.println("Email is not spam");
-        
-        else
-        	System.out.println("Email is spam");
 
+        if (hamProbability > spamProbability) {
+            System.out.println("Email is not spam");
+        } else {
+            System.out.println("Email is spam");
+        }
     }
-
 }
