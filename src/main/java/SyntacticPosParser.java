@@ -1,13 +1,5 @@
-
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
-import edu.mit.jwi.item.IIndexWord;
-import edu.mit.jwi.item.ISynset;
-import edu.mit.jwi.item.ISynsetID;
-import edu.mit.jwi.item.IWord;
-import edu.mit.jwi.item.IWordID;
-import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.Pointer;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.Sentence;
 import edu.stanford.nlp.ling.TaggedWord;
@@ -27,24 +19,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SyntacticPosParser {
-	
-	public static class Data{
-		
-		
-		public Data(String pOS, int count) {
-			super();
-			this.POS = pOS;
-			this.count = count;
-		}
-		
-		public Data() {
-			// TODO Auto-generated constructor stub
-		}
 
-		public String POS;
-		public int count;
-		public Double probability;
-	}
+    public static class Data {
+
+        public Data(String POS, int count) {
+            super();
+            this.POS = POS;
+            this.count = count;
+        }
+
+        public String POS;
+        public int count;
+        public Double probability;
+    }
 
     static HashMap<String, String> wordAndLemma = new HashMap<>();
     static HashMap<String, Integer> spamWords = new HashMap<>();
@@ -76,33 +63,28 @@ public class SyntacticPosParser {
             for (String s : lineArray) {
                 String word = s.split("/")[0];
                 String tag = s.split("/")[1];
-                IIndexWord idxWord = null;
 
-                if(tagMap.containsKey(tag))
-                	tagMap.put(tag, tagMap.get(tag));
-                else
-                	tagMap.put(tag, 1);
-                
-                if(posCounts.containsKey(word))
-                {
-                	Data tempData = posCounts.get(word);
-                	tempData.count++;
-                	posCounts.put(word, tempData);
-                	
+                if (tagMap.containsKey(tag)) {
+                    tagMap.put(tag, tagMap.get(tag));
+                } else {
+                    tagMap.put(tag, 1);
                 }
-                else
-                {
-                	Data newData = new Data(tag, 1);
-                	posCounts.put(word, newData);
+
+                if (posCounts.containsKey(word)) {
+                    Data tempData = posCounts.get(word);
+                    tempData.count++;
+                    posCounts.put(word, tempData);
+                } else {
+                    Data newData = new Data(tag, 1);
+                    posCounts.put(word, newData);
                 }
-                
+
                 if (path.contains("spam")) {
                     if (spamWords.containsKey(word)) {
                         spamWords.put(word, spamWords.get(word) + 1);
                     } else {
                         spamWords.put(word, 1);
                     }
-
                     totalSpamWords++;
                 } else {
                     if (hamWords.containsKey(word)) {
@@ -110,24 +92,15 @@ public class SyntacticPosParser {
                     } else {
                         hamWords.put(word, 1);
                     }
-
                     totalHamWords++;
                 }
             }
-
-            /*for(Map.Entry<String, String> entry : wordAndLemma.entrySet())
-             System.out.println("WORD: " + entry.getKey() + "\t" + "LEMMA: " + entry.getValue());*/
         } catch (IOException ex) {
             Logger.getLogger(SyntacticPosParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private static Data Data(String tag, int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public static void findProbabilities() {
+    public static void findProbabilities() {
         for (String s : uniqueWords) {
             Double numerator = 1.0;
             if (spamWords.containsKey(s)) {
@@ -135,26 +108,20 @@ public class SyntacticPosParser {
             } else {
                 numerator = 0 + numerator;
             }
-            
             numerator = numerator * (posCounts.get(s).count / tagMap.get(posCounts.get(s).POS));
 
             Double denominator = totalSpamWords + uniqueWords.size();
             spamProb.put(s, numerator / denominator);
-
             System.out.println("SPAM: " + numerator / denominator);
-
             numerator = 1.0;
             if (hamWords.containsKey(s)) {
                 numerator += hamWords.get(s);
             } else {
                 numerator = 0 + numerator;
             }
-            
             numerator = numerator * (posCounts.get(s).count / tagMap.get(posCounts.get(s).POS));
-
             denominator = totalHamWords + uniqueWords.size();
             hamProb.put(s, numerator / denominator);
-
             System.out.println("HAM: " + numerator / denominator);
         }
     }
@@ -166,23 +133,19 @@ public class SyntacticPosParser {
 
             String[] wordArrayTest = testFileString.split(" ");
             Double spamProbability = 0.0;
-
             for (String s : wordArrayTest) {
                 if (spamWords.containsKey(s)) {
                     spamProbability += Math.log(spamWords.get(s));
                 }
             }
-
             System.out.println(spamProbability);
 
             Double hamProbability = 0.0;
-
             for (String s : wordArrayTest) {
                 if (hamWords.containsKey(s)) {
                     hamProbability += Math.log(hamWords.get(s));
                 }
             }
-
             System.out.println(hamProbability);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SyntacticPosParser.class.getName()).log(Level.SEVERE, null, ex);
